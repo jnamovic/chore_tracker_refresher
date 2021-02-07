@@ -7,12 +7,15 @@ class Child < ApplicationRecord
     validates_presence_of :last_name
 
     def name
-        space = " "
-        (first_name + space + last_name)
+        return first_name + " " + last_name
     end
     
     
 
     scope :alphabetical, -> { order('last_name, first_name') }
     scope :active, -> { where(active: true) }
+
+    def points_earned
+        self.chores.done.inject(0){|sum,chore| sum += chore.task.points}
+    end 
 end
